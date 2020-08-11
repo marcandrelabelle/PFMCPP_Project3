@@ -1,5 +1,5 @@
 /*
-Project 3 - Part 1b / 5
+Project 3 - Part 1b / 54
 Video:  Chapter 2 Part 5
 User-Defined Types
 
@@ -53,59 +53,59 @@ Thing: Car Wash
  */
 
 /*
-Thing 1)
+Thing 1) multi-head echo machines
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of playback head 
+    2) head spacing  
+    3) tape saturation (input gain preamp)  
+    4) spring reverb mix
+    5) output level
 3 things it can do:
-    1)
-    2)
-    3)
+    1) distort signal
+    2) repeat sound source
+    3) play tape slower or faster
  */
 
 /*
-Thing 2)
+Thing 2) solid state guitar amp
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of speakers
+    2) speaker size 
+    3) master level
+    4) number of amp modeling presets
+    5) fx level
 3 things it can do:
-    1)
-    2)
-    3)
+    1) digital signal processing
+    2) imitate tube amp  
+    3) amplifie sound 
  */
 
 /*
-Thing 3)
+Thing 3) Sampling Pad
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of pads
+    2) set click tempo bpm
+    3) set velocity for triggering 
+    4) amount of sampling  memory space in sec
+    5) number of integrated effects
 3 things it can do:
-    1)
-    2)
-    3)
+    1) trigger  .wav sounds
+    2) play a sequence
+    3) send midi
  */
 
 /*
-Thing 4)
+Thing 4) analog console 
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of channel strips
+    2) number of audio send
+    3) number of monitor out
+    4) number of steroe chanels
+    5) pre or post EQ selector
 3 things it can do:
-    1)
-    2)
-    3)
+    1) Mix different sounds together 
+    2) contrôl master output level
+    3) add tone
  */
 
 
