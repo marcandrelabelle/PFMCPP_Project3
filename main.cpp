@@ -84,8 +84,8 @@ Thing 2) solid state guitar amp
 Thing 3) Sampling Pad
 5 properties:
     1) number of pads
-    2) set click tempo bpm
-    3) set velocity for triggering 
+    2) number of intergrated instruments 
+    3) stereo or mono output 
     4) amount of sampling  memory space in sec
     5) number of integrated effects
 3 things it can do:
