@@ -108,17 +108,17 @@ Thing 4) analog console
  */
 
 /*
-Thing 10)
+Thing 10) Digital Audio Workstation (DAW)
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of maximum tracks
+    2) audio plugin inserts
+    3) bus channels
+    4) editing tools
+    5) loopers
 3 things it can do:
-    1)
-    2)
-    3)
+    1) loop audio and midi sections
+    2) record audio and midi performance 
+    3) mix multiple recordings and tracks into a final       produced
  */
 
 /*
