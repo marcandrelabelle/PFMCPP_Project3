@@ -110,11 +110,11 @@ Thing 4) analog console
 /*
 Thing 10) Digital Audio Workstation (DAW)
 5 properties:
-    1) number of maximum tracks
-    2) audio plugin inserts
-    3) bus channels
-    4) editing tools
-    5) loopers
+    1) Mixer
+    2) Virtual MIDI Keyboard
+    3) Toolbar Docker
+    4) Performance Meter
+    5) Tempo Enveloppe 
 3 things it can do:
     1) loop audio and midi sections
     2) record audio and midi performance 
