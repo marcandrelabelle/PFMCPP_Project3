@@ -131,11 +131,11 @@ Thing 4) analog console
 /*
 Thing 5) Mixer
 5 properties:
-    1) faders 
-    2) routing panel 
-    3) record ready btn
-    4) input fx
-    5) input selector
+    1) maximum number of faders 
+    2) Pan knob middle position value 
+    3) record btn diameter 
+    4) slider length
+    5) number of inserts 
 3 things it can do:
     1) record audio on track
     2) pan sound
@@ -163,7 +163,7 @@ Thing 7) Toolbar Docker
     2) tool selector size  
     3) docker position 
     4) docker size
-    5) hide docker btn 
+    5) number of row
 3 things it can do:
     1) change tool for editing
     2) customize displayed tools
@@ -177,7 +177,7 @@ Thing 8) Performance Meter
     2) window size
     3) font style
     4) background colour
-    5) CPU graph 
+    5) CPU graph clock speed 
 3 things it can do:
     1) display CPU
     2) display RAM use
