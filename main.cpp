@@ -129,73 +129,73 @@ Thing 4) analog console
  */
 
 /*
-Thing 5)
+Thing 5) Mixer
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) faders 
+    2) routing panel 
+    3) record ready btn
+    4) input fx
+    5) input selector
 3 things it can do:
-    1)
-    2)
-    3)
+    1) record audio on track
+    2) pan sound
+    3) change audio volume  
  */
 
 /*
-Thing 6)
+Thing 6) Virtual MIDI Keyboard
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of octaves 
+    2) number of MIDI channel
+    3) keyboard size in pixel 
+    4) key colours
+    5) velocity range 
 3 things it can do:
-    1)
-    2)
-    3)
+    1) send midi notes 
+    2) display MIDI numbers (note to MIDI)
+    3) recieve input from computer keyboard
  */
 
 /*
-Thing 7)
+Thing 7) Toolbar Docker
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) number of tools in docker
+    2) tool selector size  
+    3) docker position 
+    4) docker size
+    5) hide docker btn 
 3 things it can do:
-    1)
-    2)
-    3)
+    1) change tool for editing
+    2) customize displayed tools
+    3) activate metronom
  */
 
 /*
-Thing 8)
+Thing 8) Performance Meter
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) text size 
+    2) window size
+    3) font style
+    4) background colour
+    5) CPU graph 
 3 things it can do:
-    1)
-    2)
-    3)
+    1) display CPU
+    2) display RAM use
+    3) display Disk read in Bytes/s
  */
 
 /*
-Thing 9)
+Thing 9) Tempo Enveloppe
 5 properties:
-    1)
-    2)
-    3)
-    4)
-    5)
+    1) bpm
+    2) default point shape ( linear/square )
+    3) number of points
+    4) tempo signature
+    5) enveloppe line colour 
 3 things it can do:
-    1)
-    2)
-    3)
+    1) change tempo bpm
+    2) create new point 
+    3) reduce number of points
  */
 
 /*
