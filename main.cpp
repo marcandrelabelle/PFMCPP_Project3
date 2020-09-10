@@ -442,10 +442,11 @@ Thing 9) Tempo Enveloppe
     std::string envLineColour = "purple";
 
     //change tempo bpm
-    void changeBpm ( int newBpm);
+    void changeBpm (int newBpm);
     //create new point
-    void newPoint ( int newPointPosX, int newPointPosY, bool pointShap); 
+    void newPoint (int newPointPosX, int newPointPosY, bool pointShap); 
     //reduce number of points
+    void deletePoint (int pointIndex);
 
  };
 
