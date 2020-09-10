@@ -130,6 +130,40 @@ Thing 1) multi-head echo machines
     3) play tape slower or faster
  */
 
+ struct EchoMachine
+ {
+    //number of playback head
+    int numPlaybackHead = 4;
+    //head spacing in inch
+    float headSpacing = 1.2f;
+    //tape saturation (input gain preamp)
+    float tapeSaturation = 9.9f;  
+    //spring reverb mix
+    float springReverbMix = 5.0f;
+    //output level nomalized
+    float outputLvl = 0.85f;
+
+    struct Overdrive 
+    {
+        float clippingPoint = 0.8f;
+        float lowPassFreq = 800.f;
+        int inputSigIndex = 1;
+        float sigMix = 0.5f;
+        float outputLvl = 0.7f;
+
+        void limitSig (int inputSig, int limiTresh, bool autoMakeUpGain);
+        void filterSig (int inputSigIndex, float q, float freq, std::string filterType);
+        void distortionType (char distoType);
+    };
+
+    //distort signal
+    void distorSignal (Overdrive overDriveSig);
+    //repeat sound source
+    void repeatSoundSource (bool repeatState, float loopStart, float loopEnd);
+    //play tape slower or faster
+    void tapeSpeed (bool playTape, int tapeSpeed);
+ };
+
 /*
 Thing 2) solid state guitar amp
 5 properties:
@@ -143,6 +177,29 @@ Thing 2) solid state guitar amp
     2) imitate tube amp  
     3) amplifie sound 
  */
+
+ struct SolideStateAmp
+ {
+    //number of speakers
+    int numSpeakers = 2;
+    //speaker size in inch;
+    float speakerSize = 12.0f;
+    //master level
+    float masterLvl = 6.3f;
+    //number of amp modeling presets
+    int ampModelingPresets = 99;
+    //fx level
+    float fxvl = 4.3f;
+
+
+    //digital signal processing
+    void signalProcessing (bool processSignal, int sampleStart, int sampleEnd);
+    //imitate tube amp 
+    void imitateTubeAmp (int ampSelectIndex, std::string speakerIr); 
+    //amplifie sound
+    void amplifieSound ( int inputSig, float gain);
+
+ };
 
 /*
 Thing 3) Sampling Pad
@@ -158,6 +215,27 @@ Thing 3) Sampling Pad
     3) send midi
  */
 
+ struct SamplingPad
+ {
+    //number of pads
+    int numPads = 8;
+    //number of intergrated instruments
+    int numIntergratedInst = 25; 
+    //stereo or mono output
+    bool stereoOut = true; 
+    //amount of sampling  memory space in sec
+    int samplingSpaceSec = 120;
+    //number of integrated effects
+    int numIntegratedFx = 12;
+
+    //trigger  .wav sounds
+    void trigSnd (int padIndex, bool trig);
+    //play a sequence
+    void playSequence (int numSteps, int bpm, bool startSequence);
+    //send midi
+
+ };
+
 /*
 Thing 4) analog console 
 5 properties:
@@ -171,6 +249,28 @@ Thing 4) analog console
     2) contrôl master output level
     3) add tone
  */
+
+ struct AnalogConsole
+ {
+    //number of channel strips
+    int numChannelStrips = 24;
+    //number of audio send
+    int numAudioSend = 2; 
+    //number of monitor out
+    int numMonitorOut = 4;
+    //number of steroe chanels
+    int numStereoChanels = 2;
+    //pre or post EQ selector
+    bool preFader = false;
+
+    //Mix different sounds together
+    void mixSounds (int trackNum, float trackLvl, float pan); 
+    //contrôl master output level
+    void masterOut (float masterOutdB);
+    //add tone
+    void addTone (float hiFreq, float hiBoost, float midFreq, float midBoost,float bassFreq, float bassBoost);
+
+ };
 
 /*
 Thing 5) Mixer
@@ -186,6 +286,28 @@ Thing 5) Mixer
     3) change audio volume  
  */
 
+ struct DawMixer
+ {
+    //maximum number of faders
+    int maxNumFaders = 175;
+    //Pan knob middle position value range from -1.0 to 1.0
+    float panPos = 0.0f; 
+    //record btn diameter in pixels
+    float recBtnDiameter = 45.5f;
+    //slider length
+    float sliderLenght = 250.25f;
+    //number of inserts
+    int numInserts = 20;
+
+    //record audio on track
+    void recordReady (bool recordOn);
+    //pan sound
+    void panSnd (float pan);
+    //change audio volume
+    void audioVolume (float laudioLvl);
+
+ };
+
 /*
 Thing 6) Virtual MIDI Keyboard
 5 properties:
@@ -199,6 +321,27 @@ Thing 6) Virtual MIDI Keyboard
     2) display MIDI numbers (note to MIDI)
     3) recieve input from computer keyboard
  */
+
+ struct VirtualMidiKey
+ {
+    //number of octaves
+    int numOctaves = 6; 
+    //number of MIDI channel
+    int numMidiChanels = 32;
+    //keyboard size in pixel
+    int keyboardSize = 500; 
+    //key colours
+    bool invertKeyColour = false;
+    //velocity range
+    int velocityRange = 127;
+
+    //send midi notes 
+    void sendMidi (int keyIndex, int velocity);
+    //display MIDI numbers (note to MIDI)
+    int displayMidi (char noteName);
+    //recieve input from computer keyboard
+    void receiveInputKey (int inputNum, int midiChanel);
+ };
 
 /*
 Thing 7) Toolbar Docker
@@ -214,6 +357,28 @@ Thing 7) Toolbar Docker
     3) activate metronom
  */
 
+ struct ToolbarDocker
+ {
+    //number of tools in docker
+    int numDockerTools = 12;
+    //tool selector size in pixels 
+    float toolSelectorSize = 25.5f;
+    //docker position 
+    float dockerPosX = 255.0f;
+    //docker size
+    float dockerWidth = 500.0f;
+    //number of row
+    int numDockerRow = 2;
+
+    //change tool for editing
+    void changeTool (int toolListIndex, int replaceIndex);
+    //customize displayed tools
+    void customizeTool (int indexSwitch, int newToolIndex);
+    //activate metronom
+    void activateMetronom  (bool mentroPlay);
+
+ };
+
 /*
 Thing 8) Performance Meter
 5 properties:
@@ -227,6 +392,27 @@ Thing 8) Performance Meter
     2) display RAM use
     3) display Disk read in Bytes/s
  */
+
+ struct PerformanceMeter
+ {
+    //text size
+    int textSize = 17;
+    //window size
+    float windowSize = 1080.0f;
+    //font style
+    std::string fontStyle = "arial";
+    //background colour
+    std::string backGroundColor = "green";
+    //CPU graph clock speed in ms
+    double cpuClockSpeed = 0.00025;
+
+    //display CPU
+    void displayCpu (int posX, int posY, float width, float height,bool active, double cpuClock);
+    //display RAM use
+    void displayRam (int posX, int posY, float width, float height,bool active);
+    //display Disk read in Bytes/s
+    void displayDiskRead (int posX, int posY, float width, float height, bool active);
+ };
 
 /*
 Thing 9) Tempo Enveloppe
@@ -242,6 +428,27 @@ Thing 9) Tempo Enveloppe
     3) reduce number of points
  */
 
+ struct TempoEnv
+ {
+    //bpm
+    int bpm = 128;
+    //default point shape ( linear/square )
+    bool linearPointShape = true;
+    //number of points
+    int numPoints = 200;    //tempo signature
+    //tempo signature in 
+    std::string tempoSignature = "7/8";
+    //enveloppe line colour
+    std::string envLineColour = "purple";
+
+    //change tempo bpm
+    void changeBpm ( int newBpm);
+    //create new point
+    void newPoint ( int newPointPosX, int newPointPosY, bool pointShap); 
+    //reduce number of points
+
+ };
+
 /*
 Thing 10) Digital Audio Workstation (DAW)
 5 properties:
@@ -255,6 +462,40 @@ Thing 10) Digital Audio Workstation (DAW)
     2) record audio and midi performance 
     3) mix multiple recordings and tracks into a final       produced
  */
+
+ struct DigitalWorkstation
+ {
+    //Mixer
+    DawMixer mixer;
+    //Virtual MIDI Keyboard
+    VirtualMidiKey midiKeys;
+    //Toolbar Docker
+    ToolbarDocker toolDocker;
+    //Performance Meter
+    PerformanceMeter perfoMeter;
+    //Tempo Enveloppe
+    TempoEnv tempoEnveloppe;
+
+    struct TransportBar
+    {
+        bool transportBarShow = true;
+        bool playBtnActive = false;
+        bool showPlayRate = true;
+        float sartTimeSelectionPoint = 0.0f;
+        float endTimeSelectionPoint = 24.0f;
+
+        void loopSelection(bool loopSelcetion);
+        int tapTempoBpm (int numTap, float time);
+        void moveCursorPos (int beat, int mesure);
+    };
+
+    //loop audio and midi sections
+    void loopAudioSection ( float loopIn, float loopOut);
+    //record audio and midi performance 
+    void recordData (int input, bool isMidi);
+    //mix multiple recordings and tracks into a final produced
+    void bounce  ( int tracks, float startingPoint, float endingPoint);
+ };
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
