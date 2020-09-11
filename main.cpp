@@ -130,8 +130,8 @@ Thing 1) multi-head echo machines
     3) play tape slower or faster
  */
 
- struct EchoMachine
- {
+struct EchoMachine
+{
     //number of playback head
     int numPlaybackHead = 4;
     //head spacing in inch
@@ -162,7 +162,7 @@ Thing 1) multi-head echo machines
     void repeatSoundSource (bool repeatState, float loopStart, float loopEnd);
     //play tape slower or faster
     void tapeSpeed (bool playTape, int tapeSpeed);
- };
+};
 
 /*
 Thing 2) solid state guitar amp
@@ -178,8 +178,8 @@ Thing 2) solid state guitar amp
     3) amplifie sound 
  */
 
- struct SolideStateAmp
- {
+struct SolideStateAmp
+{
     //number of speakers
     int numSpeakers = 2;
     //speaker size in inch;
@@ -197,9 +197,9 @@ Thing 2) solid state guitar amp
     //imitate tube amp 
     void imitateTubeAmp (int ampSelectIndex, std::string speakerIr); 
     //amplifie sound
-    void amplifieSound ( int inputSig, float gain);
+    void amplifieSound (int inputSig, float gain);
 
- };
+};
 
 /*
 Thing 3) Sampling Pad
@@ -215,8 +215,8 @@ Thing 3) Sampling Pad
     3) send midi
  */
 
- struct SamplingPad
- {
+struct SamplingPad
+{
     //number of pads
     int numPads = 8;
     //number of intergrated instruments
@@ -233,8 +233,8 @@ Thing 3) Sampling Pad
     //play a sequence
     void playSequence (int numSteps, int bpm, bool startSequence);
     //send midi
-
- };
+    void sendMidi (int midiNoteNum, int midiVel, bool noteEvent, bool isCc);
+};
 
 /*
 Thing 4) analog console 
@@ -250,8 +250,8 @@ Thing 4) analog console
     3) add tone
  */
 
- struct AnalogConsole
- {
+struct AnalogConsole
+{
     //number of channel strips
     int numChannelStrips = 24;
     //number of audio send
@@ -268,9 +268,8 @@ Thing 4) analog console
     //contrôl master output level
     void masterOut (float masterOutdB);
     //add tone
-    void addTone (float hiFreq, float hiBoost, float midFreq, float midBoost,float bassFreq, float bassBoost);
-
- };
+    void addTone (float hiFreq, float hiBoost, float midFreq, float midBoost, float bassFreq, float bassBoost);
+};
 
 /*
 Thing 5) Mixer
@@ -286,8 +285,8 @@ Thing 5) Mixer
     3) change audio volume  
  */
 
- struct DawMixer
- {
+struct DawMixer
+{
     //maximum number of faders
     int maxNumFaders = 175;
     //Pan knob middle position value range from -1.0 to 1.0
@@ -306,7 +305,7 @@ Thing 5) Mixer
     //change audio volume
     void audioVolume (float laudioLvl);
 
- };
+};
 
 /*
 Thing 6) Virtual MIDI Keyboard
@@ -322,8 +321,8 @@ Thing 6) Virtual MIDI Keyboard
     3) recieve input from computer keyboard
  */
 
- struct VirtualMidiKey
- {
+struct VirtualMidiKey
+{
     //number of octaves
     int numOctaves = 6; 
     //number of MIDI channel
@@ -341,7 +340,7 @@ Thing 6) Virtual MIDI Keyboard
     int displayMidi (char noteName);
     //recieve input from computer keyboard
     void receiveInputKey (int inputNum, int midiChanel);
- };
+};
 
 /*
 Thing 7) Toolbar Docker
@@ -357,8 +356,8 @@ Thing 7) Toolbar Docker
     3) activate metronom
  */
 
- struct ToolbarDocker
- {
+struct ToolbarDocker
+{
     //number of tools in docker
     int numDockerTools = 12;
     //tool selector size in pixels 
@@ -375,9 +374,9 @@ Thing 7) Toolbar Docker
     //customize displayed tools
     void customizeTool (int indexSwitch, int newToolIndex);
     //activate metronom
-    void activateMetronom  (bool mentroPlay);
+    void activateMetronom (bool mentroPlay);
 
- };
+};
 
 /*
 Thing 8) Performance Meter
@@ -393,8 +392,8 @@ Thing 8) Performance Meter
     3) display Disk read in Bytes/s
  */
 
- struct PerformanceMeter
- {
+struct PerformanceMeter
+{
     //text size
     int textSize = 17;
     //window size
@@ -412,7 +411,7 @@ Thing 8) Performance Meter
     void displayRam (int posX, int posY, float width, float height,bool active);
     //display Disk read in Bytes/s
     void displayDiskRead (int posX, int posY, float width, float height, bool active);
- };
+};
 
 /*
 Thing 9) Tempo Enveloppe
@@ -428,8 +427,8 @@ Thing 9) Tempo Enveloppe
     3) reduce number of points
  */
 
- struct TempoEnv
- {
+struct TempoEnv
+{
     //bpm
     int bpm = 128;
     //default point shape ( linear/square )
@@ -448,7 +447,7 @@ Thing 9) Tempo Enveloppe
     //reduce number of points
     void deletePoint (int pointIndex);
 
- };
+};
 
 /*
 Thing 10) Digital Audio Workstation (DAW)
@@ -464,8 +463,8 @@ Thing 10) Digital Audio Workstation (DAW)
     3) mix multiple recordings and tracks into a final       produced
  */
 
- struct DigitalWorkstation
- {
+struct DigitalWorkstation
+{
     //Mixer
     DawMixer mixer;
     //Virtual MIDI Keyboard
@@ -491,12 +490,12 @@ Thing 10) Digital Audio Workstation (DAW)
     };
 
     //loop audio and midi sections
-    void loopAudioSection ( float loopIn, float loopOut);
+    void loopAudioSection (float loopIn, float loopOut);
     //record audio and midi performance 
     void recordData (int input, bool isMidi);
     //mix multiple recordings and tracks into a final produced
-    void bounce  ( int tracks, float startingPoint, float endingPoint);
- };
+    void bounce (int tracks, float startingPoint, float endingPoint);
+};
 
 /*
  MAKE SURE YOU ARE NOT ON THE MASTER BRANCH
