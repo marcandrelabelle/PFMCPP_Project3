@@ -271,16 +271,7 @@ struct SolideStateAmp
 
 void SolideStateAmp::signalProcessing(bool processSignal, int sampleStart, int sampleEnd)
 {
-    if (processSignal != 1)
-    {
-        sampleStart = 0;
-        sampleEnd = 0;
-    }
-    else
-    {
-        sampleStart = 0;
-        sampleEnd = 1;
-    }
+   sampleEnd = (processSignal != 1) ? 0 : 1 + sampleStart;
 }
 
 void SolideStateAmp::imitateTubeAmp(int ampSelectIndex, std::string speakerIr)
@@ -320,30 +311,12 @@ void SamplingPad::trigSnd(){}
 
 void SamplingPad::playSequence(int numSteps, int bpm, bool startSequence)
 {
-    if (startSequence == 1)
-    {
-        padSteps = numSteps * bpm;
-    }
-    else
-    {
-        padSteps = 0;
-    }
+    padSteps = (startSequence == 1) ? numSteps * bpm : 0;
 }
 
 int SamplingPad::sendMidi(int midiNoteNum, int midiVel, bool noteEvent, bool isCc)
 {
-    int midiInfo = 0;
-
-    if (noteEvent && isCc == 0)
-    {
-        midiInfo = midiNoteNum;
-    }
-    else
-    {
-        midiInfo = midiVel;
-    }
-    
-    return midiInfo;
+    return (noteEvent && isCc == 0) ? midiNoteNum : midiVel;
 }
 
 struct AnalogConsole
@@ -379,7 +352,7 @@ void AnalogConsole::masterOut(float masterOutdB)
 
 float AnalogConsole::addTone(float hiFreq, float hiBoost, float midFreq, float midBoost, float bassFreq, float bassBoost)
 {
-    float tone = 800.0f;
+    float tone;
    
     if (hiBoost > 0.5f)
     {
@@ -474,15 +447,15 @@ int ToolbarDocker::customizeTool(int indexSwitch, int newToolIndex)
 
 bool ToolbarDocker::activateMetronom(bool metroPlay)
 {
-   bool state = 0;
+   bool state;
 
    if (metroPlay)
    {
-       state = 0;
+       state = true;
    }
    else
    {
-       state = 1;
+       state = false;
    }
    
     return state;
@@ -534,7 +507,7 @@ void PerformanceMeter::displayRam(int posX, int posY, float width, float height,
 
 void PerformanceMeter::displayDiskRead(int posX, int posY, float width, float height, bool active)
 {
-     if (active)
+    if (active)
     {
         textSize = height/25;
         windowSize = (width*height) - (posX +posY);
@@ -567,7 +540,7 @@ void TempoEnv::changeBpm(int newBpm)
 float TempoEnv::newPoint(float newPointPosX, float newPointPosY,bool pointShape)
 {
     float floor = 0.01f;
-    float newDot = 0;
+    float newDot;
 
     if (numPoints < 200 && pointShape == true)
     {
@@ -583,7 +556,7 @@ float TempoEnv::newPoint(float newPointPosX, float newPointPosY,bool pointShape)
 
 void TempoEnv::deletePoint(int pointIndex)
 {
-    int newIndex = 0;
+    int newIndex;
     newIndex = pointIndex * 1;
 }
 
@@ -611,7 +584,7 @@ struct DigitalWorkstation
 
     float loopAudioSection (float loopIn, float loopOut);
     void recordData (int input, bool isMidi);
-    void bounce (int tracks, float startingPoint, float endingPoint);
+    float bounce (int tracks, float startingPoint, float endingPoint);
 };
 
 float DigitalWorkstation::loopAudioSection(float loopIn, float loopOut)
@@ -621,23 +594,15 @@ float DigitalWorkstation::loopAudioSection(float loopIn, float loopOut)
 
 void DigitalWorkstation::recordData(int input, bool isMidi)
 {
-    if (isMidi && input > -1)
-    {
-        recStatus = true;
-    }
-    else
-    {
-        recStatus = false;
-    }
+   recStatus = (isMidi && input > -1);
 }
 
-void DigitalWorkstation::bounce(int tracks, float startingPoint, float endingPoint)
+float DigitalWorkstation::bounce(int tracks, float startingPoint, float endingPoint)
 {
-    int bouncedTrack = 0;
-    float trackLength = 0.0f;
+    int bouncedTrack = tracks + 1;
+    float trackLength = startingPoint - endingPoint ;
     
-    bouncedTrack = tracks + 1;
-    trackLength = startingPoint - endingPoint ;
+    return bouncedTrack -  trackLength;
 }
 
 void DigitalWorkstation::TransportBar::loopSelection(bool loopSelection)
