@@ -64,20 +64,22 @@ int main()
 
 struct EchoMachine
 {
-    int numPlaybackHead = 4;
-    float headSpacing = 1.2f;
-    float tapeSaturation = 9.9f;  
-    float springReverbMix = 5.0f;
-    float outputLvl = 0.85f;
-    float tapeReadSpeed = 1;
+    EchoMachine();
+    int numPlaybackHead;
+    float headSpacing;
+    float tapeSaturation;  
+    float springReverbMix;
+    float outputLvl;
+    float tapeReadSpeed;
 
     struct Overdrive 
     {
-        float clippingPoint = 0.8f;
-        float lowPassFreq = 800.0f;
-        int inputSigIndex = 1;
-        float sigMix = 0.5f;
-        float outputLvl = 0.7f;
+        Overdrive();
+        float clippingPoint;
+        float lowPassFreq;
+        int inputSigIndex;
+        float sigMix;
+        float outputLvl;
 
         void limitSig (int inputSig, int limiTresh,bool autoMakeUpGain);
         void filterSig (int inputIndex, float q,float freq, char filterType);
@@ -90,6 +92,26 @@ struct EchoMachine
 
     void tapeSpeed (bool playTape, int tapeSpeed);
 };
+
+EchoMachine::EchoMachine()
+{
+    numPlaybackHead = 0;
+    headSpacing = 0.0f;
+    tapeSaturation = 0.0f;  
+    springReverbMix = 0.0f;
+    outputLvl = 0.0f;
+    tapeReadSpeed = 0;
+}
+
+EchoMachine::Overdrive::Overdrive()
+{
+    clippingPoint = 0.0f;
+    lowPassFreq = 0.0f;
+    inputSigIndex = 0;
+    sigMix = 0.0f;
+    outputLvl = 0.0f;
+}
+
 
 void EchoMachine::Overdrive::limitSig(int inputSig, int limiTresh, bool autoMakeUpGain)
 {
@@ -120,6 +142,9 @@ void EchoMachine::Overdrive::filterSig(int inputIndex, float q, float freq, char
     {
         centerQ += 1.f;
     }
+
+     std::cout << "EchoMachine::Overdrive::filterSig " << centerQ  << std::endl;
+    
 }
 
 void EchoMachine::Overdrive::distortionType(char distoType)
@@ -134,9 +159,14 @@ void EchoMachine::Overdrive::distortionType(char distoType)
         clippingPoint = 0.6f;
         lowPassFreq = 8000;
     }
+
+    std::cout << "EchoMachine::Overdrive::distortionType " << distoType  << std::endl;
 }
 
-void EchoMachine::distorSignal (){}
+void EchoMachine::distorSignal ()
+{
+    std::cout << "EchoMachine::distorSignal " << numPlaybackHead << std::endl;  //2) printing out something interesting
+}
 
 void EchoMachine::repeatSoundSource (bool repeatState, float loopStart, float loopEnd, float looplength)
 {
@@ -165,16 +195,26 @@ void EchoMachine::tapeSpeed (bool playTape, int tapeSpeed)
 
 struct SolideStateAmp
 {
-    int numSpeakers = 2;
-    float speakerSize = 12.0f;
-    float masterLvl = 6.3f;
-    int ampModelingPresets = 99;
-    float fxvl = 4.3f;
+    SolideStateAmp();
+    int numSpeakers;
+    float speakerSize;
+    float masterLvl;
+    int ampModelingPresets;
+    float fxvl;
 
     void signalProcessing (bool processSignal, int sampleStart, int sampleEnd);
     void imitateTubeAmp (int ampSelectIndex, std::string speakerIr); 
     void amplifieSound (int inputSig, float gain);
 };
+
+SolideStateAmp::SolideStateAmp()
+{
+    numSpeakers = 0;
+    speakerSize = 0.0;
+    masterLvl = 0.0;
+    ampModelingPresets = 0;
+    fxvl = 0.0 ;
+}
 
 void SolideStateAmp::signalProcessing(bool processSignal, int sampleStart, int sampleEnd)
 {
@@ -202,23 +242,36 @@ void SolideStateAmp::amplifieSound(int inputSig, float gain)
 
 struct SamplingPad
 {
-    int numPads = 8;
-    int numIntergratedInst = 25; 
-    bool stereoOut = true; 
-    int samplingSpaceSec = 120;
-    int numIntegratedFx = 12;
-    int padSteps = 16;
+    SamplingPad();
+    int numPads;
+    int numIntergratedInst; 
+    bool stereoOut; 
+    int samplingSpaceSec;
+    int numIntegratedFx;
+    int padSteps;
 
     void trigSnd ();
     void playSequence (int numSteps, int bpm, bool startSequence);
     int sendMidi (int midiNoteNum, int midiVel, bool noteEvent, bool isCc);
 };
 
+SamplingPad::SamplingPad()
+{
+    numPads = 0;
+    numIntergratedInst = 0; 
+    stereoOut = true; 
+    samplingSpaceSec = 0;
+    numIntegratedFx = 0;
+    padSteps = 0;
+
+}
+
 void SamplingPad::trigSnd(){}
 
 void SamplingPad::playSequence(int numSteps, int bpm, bool startSequence)
 {
     padSteps = (startSequence == 1) ? numSteps * bpm : 0;
+    std::cout << "SamplingPad::playSequence " << padSteps << std::endl;
 }
 
 int SamplingPad::sendMidi(int midiNoteNum, int midiVel, bool noteEvent, bool isCc)
@@ -228,19 +281,33 @@ int SamplingPad::sendMidi(int midiNoteNum, int midiVel, bool noteEvent, bool isC
 
 struct AnalogConsole
 {
-    int numChannelStrips = 24;
-    int numAudioSend = 2; 
-    int numMonitorOut = 4;
-    int numStereoChanels = 2;
-    int selectedCh = 0;
-    float panner = 0;
-    float outputGain = 0.0f;
-    bool preFader = false;
+    AnalogConsole();
+    int numChannelStrips;
+    int numAudioSend; 
+    int numMonitorOut;
+    int numStereoChanels;
+    int selectedCh;
+    float panner;
+    float outputGain;
+    bool preFader;
 
     void mixSounds (int trackNum, float trackLvl, float pan); 
     void masterOut (float masterOutdB);
     float addTone (float hiFreq, float hiBoost, float midFreq, float midBoost, float bassFreq, float bassBoost);
 };
+
+AnalogConsole::AnalogConsole()
+{
+    numChannelStrips = 0;
+    numAudioSend = 0; 
+    numMonitorOut = 0;
+    numStereoChanels = 0;
+    selectedCh = 0;
+    panner = 0.0f;
+    outputGain = 0.0f;
+    preFader = false;
+}
+
 
 void AnalogConsole::mixSounds(int trackNum, float trackLvl,float pan)
 {
@@ -275,18 +342,29 @@ float AnalogConsole::addTone(float hiFreq, float hiBoost, float midFreq, float m
 
 struct DawMixer
 {
-    int maxNumFaders = 175;
-    float panPos = 0.0f; 
-    float recBtnDiameter = 45.5f;
-    float sliderLenght = 250.25f;
-    float lvl = 0.0f;
-    int numInserts = 20;
+    DawMixer();
+    int maxNumFaders;
+    float panPos; 
+    float recBtnDiameter;
+    float sliderLenght;
+    float lvl;
+    int numInserts;
 
 
     void recordReady ();
     void panSnd (float pan);
     void audioVolume (float laudioLvl, float normalize);
 };
+
+DawMixer::DawMixer()
+{
+    maxNumFaders = 0;
+    panPos = 0.0f; 
+    recBtnDiameter = 0.0f;
+    sliderLenght = 0.0f;
+    lvl = 0.0f;
+    numInserts = 0;
+}
 
 void DawMixer::recordReady(){}
 
@@ -302,16 +380,26 @@ void DawMixer::audioVolume (float laudioLvl, float normalize)
 
 struct VirtualMidiKey
 {
-    int numOctaves = 6; 
-    int numMidiChanels = 32;
-    int keyboardSize = 500; 
-    bool invertKeyColour = false;
-    int velocityRange = 127;
+    VirtualMidiKey();
+    int numOctaves; 
+    int numMidiChanels;
+    int keyboardSize; 
+    bool invertKeyColour;
+    int velocityRange;
 
     void sendMidi (int keyIndex, int velocity);
     int displayMidi (char noteName);
     void receiveInputKey (int inputNum, int midiChanel);
 };
+
+VirtualMidiKey::VirtualMidiKey()
+{
+    numOctaves = 0; 
+    numMidiChanels = 0;
+    keyboardSize = 0; 
+    invertKeyColour = false;
+    velocityRange = 0;
+}
 
 void VirtualMidiKey::sendMidi(int keyIndex, int velocity)
 {
@@ -331,16 +419,26 @@ void VirtualMidiKey::receiveInputKey(int inputNum, int midiChanel)
 
 struct ToolbarDocker
 {
-    int numDockerTools = 12;
-    float toolSelectorSize = 25.5f;
-    float dockerPosX = 255.0f;
-    float dockerWidth = 500.0f;
-    int numDockerRow = 2;
+    ToolbarDocker();
+    int numDockerTools;
+    float toolSelectorSize;
+    float dockerPosX;
+    float dockerWidth;
+    int numDockerRow;
 
     void changeTool (int toolListIndex, int replaceIndex);
     int customizeTool (int indexSwitch, int newToolIndex);
     bool activateMetronom (bool metroPlay);
 };
+
+ToolbarDocker::ToolbarDocker()
+{
+    numDockerTools = 0;
+    toolSelectorSize = 0.0f;
+    dockerPosX = 0.0f;
+    dockerWidth = 0.0f;
+    numDockerRow = 0; 
+}
 
 void ToolbarDocker::changeTool(int toolListIndex, int replaceIndex)
 {
@@ -370,16 +468,26 @@ bool ToolbarDocker::activateMetronom(bool metroPlay)
 
 struct PerformanceMeter
 {
-    float textSize = 17;
-    float windowSize = 1080.0f;
-    std::string fontStyle = "arial";
-    std::string backGroundColor = "green";
-    double cpuClockSpeed = 0.00025;
+    PerformanceMeter();
+    float textSize;
+    float windowSize;
+    std::string fontStyle;
+    std::string backGroundColor;
+    double cpuClockSpeed;
 
     void displayCpu (int posX, int posY, float width, float height,bool active, double cpuClock);
     void displayRam (int posX, int posY, float width, float height,bool active);
     void displayDiskRead (int posX, int posY, float width, float height,bool active);
 };
+
+PerformanceMeter::PerformanceMeter()
+{
+    textSize = 0;
+    windowSize = 0.0f;
+    fontStyle = "arial";
+    backGroundColor = "green";
+    cpuClockSpeed = 0.0; 
+}
 
 void PerformanceMeter::displayCpu(int posX, int posY, float width, float height, bool active, double cpuClock)
 {
@@ -428,16 +536,26 @@ void PerformanceMeter::displayDiskRead(int posX, int posY, float width, float he
 
 struct TempoEnv
 {
-    int bpm = 128;
-    bool linearPointShape = true;
-    int numPoints = 200;
-    std::string tempoSignature = "7/8";
-    std::string envLineColour = "purple";
+    TempoEnv();
+    int bpm;
+    bool linearPointShape;
+    int numPoints;
+    std::string tempoSignature;
+    std::string envLineColour;
 
     void changeBpm (int newBpm);
     float newPoint (float newPointPosX, float newPointPosY, bool pointShape); 
     void deletePoint (int pointIndex);
 };
+
+TempoEnv::TempoEnv()
+{
+    bpm = 128;
+    linearPointShape = true;
+    numPoints = 200;
+    tempoSignature = "7/8";
+    envLineColour = "purple"; 
+}
 
 void TempoEnv::changeBpm(int newBpm)
 {
@@ -469,6 +587,7 @@ void TempoEnv::deletePoint(int pointIndex)
 
 struct DigitalWorkstation
 {
+    DigitalWorkstation();
     DawMixer mixer;
     VirtualMidiKey midiKeys;
     ToolbarDocker toolDocker;
@@ -478,11 +597,12 @@ struct DigitalWorkstation
 
     struct TransportBar
     {
-        bool transportBarShow = true;
-        bool playBtnActive = false;
-        bool showPlayRate = true;
-        float sartTimeSelectionPoint = 0.0f;
-        float endTimeSelectionPoint = 24.0f;
+        TransportBar();
+        bool transportBarShow;
+        bool playBtnActive;
+        bool showPlayRate;
+        float sartTimeSelectionPoint;
+        float endTimeSelectionPoint;
 
         void loopSelection(bool loopSelection);
         float tapTempoBpm (int numTap, float time);
@@ -493,6 +613,21 @@ struct DigitalWorkstation
     void recordData (int input, bool isMidi);
     float bounce (int tracks, float startingPoint, float endingPoint);
 };
+
+DigitalWorkstation::DigitalWorkstation()
+{
+    
+}
+
+DigitalWorkstation::TransportBar::TransportBar()
+{
+    transportBarShow = true;
+    playBtnActive = false;
+    showPlayRate = true;
+    sartTimeSelectionPoint = 0.0f;
+    endTimeSelectionPoint = 24.0f;
+}
+
 
 float DigitalWorkstation::loopAudioSection(float loopIn, float loopOut)
 {
@@ -547,5 +682,17 @@ int DigitalWorkstation::TransportBar::moveCursorPos(int beat, int mesure)
 #include <iostream>
 int main()
 {
+    EchoMachine echoMch;
+    EchoMachine::Overdrive overDr;
+    SamplingPad sampPad;
+
+    echoMch.distorSignal();
+    overDr.filterSig (0, 1.0,500.50f, 'a');
+    sampPad.playSequence(8, 120, true);
+
+    std::cout << "EchoMachine echoMch " << (echoMch.outputLvl <= 0.0f ? "not loud enough" : "louder!!!!") << "\n";
+
+    std::cout << "EchoMachine::Overdrive overDr = " << (overDr.clippingPoint <= 0.0f ? " need more Clipping...pleasee!!!" : "YASSSSS") << "\n";
+
     std::cout << "good to go!" << std::endl;
 }
