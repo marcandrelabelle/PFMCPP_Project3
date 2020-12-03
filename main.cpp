@@ -173,30 +173,24 @@ void EchoMachine::tapeSpeed (bool playTape, int tapeSpeed)
 
 struct SolideStateAmp
 {
-    SolideStateAmp();
     int numSpeakers;
     float speakerSize;
     float masterLvl;
     int ampModelingPresets;
     float fxvl;
 
+    SolideStateAmp() : numSpeakers(4), speakerSize(12.0f), masterLvl(9.5f), ampModelingPresets(87), fxvl(5.5f){}   
+
     void signalProcessing (bool processSignal, int sampleStart, int sampleEnd);
     void imitateTubeAmp (int ampSelectIndex, std::string speakerIr); 
     void amplifieSound (int inputSig, float gain);
 };
 
-SolideStateAmp::SolideStateAmp()
-{
-    numSpeakers = 0;
-    speakerSize = 0.0;
-    masterLvl = 0.0;
-    ampModelingPresets = 0;
-    fxvl = 0.0 ;
-}
-
 void SolideStateAmp::signalProcessing(bool processSignal, int sampleStart, int sampleEnd)
 {
    sampleEnd = (processSignal != 1) ? 0 : 1 + sampleStart;
+
+   std::cout << " \nSolideStateAmp::signalProcessing ampModelingPresets: " << ampModelingPresets << " \nsampleEnd: " << sampleEnd << std::endl;
 }
 
 void SolideStateAmp::imitateTubeAmp(int ampSelectIndex, std::string speakerIr)
@@ -269,30 +263,20 @@ struct AnalogConsole
     float outputGain;
     bool preFader;
 
-    void mixSounds (int trackNum, float trackLvl, float pan); 
+    void mixSounds (int trackNum, float trackLvl, float pan)
+    {
+        selectedCh = trackNum + 1;
+        outputGain = trackLvl * -6.0f;
+        panner = pan - 1;
+
+        std::cout << "\nAnalogConsole::mixSounds preFader: " << preFader << "\n" << std::endl;
+
+    }
     void masterOut (float masterOutdB);
     float addTone (float hiFreq, float hiBoost, float midFreq, float midBoost, float bassFreq, float bassBoost);
 };
 
-AnalogConsole::AnalogConsole()
-{
-    numChannelStrips = 0;
-    numAudioSend = 0; 
-    numMonitorOut = 0;
-    numStereoChanels = 0;
-    selectedCh = 0;
-    panner = 0.0f;
-    outputGain = 0.0f;
-    preFader = false;
-}
-
-
-void AnalogConsole::mixSounds(int trackNum, float trackLvl,float pan)
-{
-    selectedCh = trackNum + 1;
-    outputGain = trackLvl * -6.0f;
-    panner = pan - 1;
-}
+AnalogConsole::AnalogConsole() : numChannelStrips(127), numAudioSend(24), numMonitorOut(2), numStereoChanels(4), selectedCh(1), panner(0.0f), outputGain(1.0f), preFader(false){}
 
 void AnalogConsole::masterOut(float masterOutdB)
 {
@@ -320,35 +304,33 @@ float AnalogConsole::addTone(float hiFreq, float hiBoost, float midFreq, float m
 
 struct DawMixer
 {
+    
+    int maxNumFaders {99};
+    float panPos {0.0f}; 
+    float recBtnDiameter {50.0f};
+    float sliderLenght {100.0f};
+    float lvl {55.25f};
+    int numInserts {4};
+    
     DawMixer();
-    int maxNumFaders;
-    float panPos; 
-    float recBtnDiameter;
-    float sliderLenght;
-    float lvl;
-    int numInserts;
-
-
+    
     void recordReady ();
     void panSnd (float pan);
     void audioVolume (float laudioLvl, float normalize);
 };
 
-DawMixer::DawMixer()
-{
-    maxNumFaders = 0;
-    panPos = 0.0f; 
-    recBtnDiameter = 0.0f;
-    sliderLenght = 0.0f;
-    lvl = 0.0f;
-    numInserts = 0;
-}
+DawMixer::DawMixer(){}
 
-void DawMixer::recordReady(){}
+void DawMixer::recordReady()
+{
+    std::cout << "\nDawMixer::recordReady numInserts : " << numInserts << "\n" << std::endl;
+}
 
 void DawMixer::panSnd(float pan)
 {
     panPos += pan;
+
+    std::cout << "\nDawMixer::panSnd panPos : " << panPos << "\n" << std::endl;
 }
 
 void DawMixer::audioVolume (float laudioLvl, float normalize)
@@ -366,13 +348,20 @@ struct VirtualMidiKey
     int velocityRange;
 
     void sendMidi (int keyIndex, int velocity);
-    int displayMidi (char noteName);
     void receiveInputKey (int inputNum, int midiChanel);
+    
+    int displayMidi (char noteName)
+    {
+        std::cout << "\nVirtualMidiKey::displayMidi numOctaves : " << numOctaves << "\n" << std::endl;
+        
+        return noteName;
+    }
+    
 };
 
 VirtualMidiKey::VirtualMidiKey()
 {
-    numOctaves = 0; 
+    numOctaves = 8; 
     numMidiChanels = 0;
     keyboardSize = 0; 
     invertKeyColour = false;
@@ -383,11 +372,6 @@ void VirtualMidiKey::sendMidi(int keyIndex, int velocity)
 {
     keyboardSize = keyIndex * numOctaves;
     velocityRange += velocity;
-}
-
-int VirtualMidiKey::displayMidi(char noteName)
-{
-    return noteName;
 }
 
 void VirtualMidiKey::receiveInputKey(int inputNum, int midiChanel)
@@ -664,7 +648,17 @@ int main()
     EchoMachine echoMch;
     EchoMachine::Overdrive overDr;
     SamplingPad sampPad;
+    SolideStateAmp solidAmp;
+    AnalogConsole aConsol;
+    DawMixer dawMix;
+    VirtualMidiKey midiKey;
 
+    solidAmp.signalProcessing(true,0,20);
+    aConsol.mixSounds(2, 0.5f, 0.0);
+    dawMix.recordReady();
+    dawMix.panSnd(0.0);
+    midiKey.displayMidi('a');
+    
     echoMch.distorSignal();
     overDr.filterSig (0, 1.0,500.50f, 'a');
     sampPad.playSequence(8, 120, true);
