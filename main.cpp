@@ -29,11 +29,13 @@ Create a branch named Part5
 #include <iostream>
 namespace Example 
 {
+
 struct Bar 
 { 
     int num = 0; 
     Bar(int n) : num(n) { } 
 };
+
 struct Foo
 {
     Bar scopeLifetimeFunc( int threshold, int startingVal ) //3), 4c) 
@@ -54,9 +56,9 @@ struct Foo
 int main()
 {
     Foo foo;
-    auto bar = foo.scopeLifetimeFunc(3, 1);        //5) 
+    auto bar = foo.scopeLifetimeFunc(1, 3);        //5) 
     
-    std::cout << "bar.num: " << bar.num << std::endl;     //6) 
+    std::cout << "\nbar.num: " << bar.num << std::endl;     //6) 
     return 0;
 }
 }
@@ -73,6 +75,7 @@ struct EchoMachine
     float springReverbMix;
     float outputLvl;
     float tapeReadSpeed;
+
 
     struct Overdrive 
     {
@@ -93,6 +96,17 @@ struct EchoMachine
     void repeatSoundSource (bool repeatState, float loopStart,float loopEnd, float looplength);
 
     void tapeSpeed (bool playTape, int tapeSpeed);
+
+    void echoFunction (int treshold)
+    {
+        float delayTime = 0.0f;
+        
+        for (int i = 0; i <= treshold; i++)
+        {
+            delayTime += treshold;
+            std::cout << i << " " << "delayTime : " << delayTime <<std::endl; 
+        }
+    }
 };
 
 EchoMachine::EchoMachine()
@@ -208,6 +222,22 @@ struct SolideStateAmp
     void signalProcessing (bool processSignal, int sampleStart, int sampleEnd);
     void imitateTubeAmp (int ampSelectIndex, std::string speakerIr); 
     void amplifieSound (int inputSig, float gain);
+
+    float volumeLevel (float maxVolume)
+    {
+        float volLevel {0.f};
+
+        while(volLevel < maxVolume)
+        {
+            volLevel += 0.5f;
+            if (volLevel >= 11)
+            {
+                std::cout << volLevel << " is too loud,max at 11.0" << std::endl;
+                break;
+            }
+        }
+        return volLevel;
+    }
 };
 
 void SolideStateAmp::signalProcessing(bool processSignal, int sampleStart, int sampleEnd)
@@ -249,6 +279,7 @@ struct SamplingPad
     void trigSnd ();
     void playSequence (int numSteps, int bpm, bool startSequence);
     int sendMidi (int midiNoteNum, int midiVel, bool noteEvent, bool isCc);
+
 };
 
 SamplingPad::SamplingPad()
@@ -461,9 +492,41 @@ struct PerformanceMeter
     std::string backGroundColor;
     double cpuClockSpeed;
 
+    struct DefaultMainWindow
+    {
+        float w;
+        float h;
+        DefaultMainWindow() : w(1920.f), h(1080.f){}
+    };
+
     void displayCpu (int posX, int posY, float width, float height,bool active, double cpuClock);
     void displayRam (int posX, int posY, float width, float height,bool active);
     void displayDiskRead (int posX, int posY, float width, float height,bool active);
+
+    void isWindowToBig (float myWindowH, float myWindowW)
+    {
+        DefaultMainWindow window;
+        
+        for (int i = 0 ; i <  myWindowW; i++)
+        {
+            if (i > window.w)
+            {
+                std::cout << "resizing window width to : " << myWindowW << std::endl;
+                window.w = myWindowW;
+                break;
+            }
+        }
+
+        for (int i = 0 ; i <  myWindowH; i++)
+        {
+            if (i > window.h)
+            {
+                std::cout << "resizing window height to : " << myWindowH << std::endl;
+                window.h = myWindowH;
+                break;
+            }
+        }
+    }
 };
 
 PerformanceMeter::PerformanceMeter()
@@ -665,9 +728,61 @@ int DigitalWorkstation::TransportBar::moveCursorPos(int beat, int mesure)
  Wait for my code review.
  */
 
+
+/* 
+
+//TESTS LEARNING STUFF
+
+struct Type
+{
+    int typeVal;
+    Type(int n) : typeVal(n){}
+    
+};
+
+struct Test
+{
+    Type function(int val, int mul)
+    {
+        Type type (val * mul);
+        return type.typeVal;
+    }
+};
+
+struct Type_2
+{
+    int typeVal;
+    int typeVal_2;
+    Type_2(int n) : typeVal(n),typeVal_2 (n*2) {}
+};
+
+struct Test_2
+{
+    Type_2 fonction(int a, int b)
+    {
+        std::cout << "a : " << a << "\n" << "b : " << b << std::endl;
+        return Type_2(a+b);
+    }
+};
+*/
+
+
 #include <iostream>
 int main()
 {
+
+    /*
+    Test test;
+    auto type = test.function(28,2);
+    std::cout << "\ntest.function " << type.typeVal << std::endl;
+
+    Test_2 test_2;
+    auto type_2 = test_2.fonction(1, 2);
+    std::cout << "\ntest_2.fonction " << type_2.typeVal << std::endl;
+
+    std::cout << "\ntest_2.fonction " << type_2.typeVal_2 << std::endl;
+    */
+    
     Example::main();
     EchoMachine echoMch;
     EchoMachine::Overdrive overDr;
@@ -677,6 +792,12 @@ int main()
     DawMixer dawMix;
     VirtualMidiKey midiKey;
 
+    PerformanceMeter perfoMeter;
+
+    perfoMeter.isWindowToBig(1080, 1920);
+    perfoMeter.isWindowToBig(2160, 3840);
+    
+    /*
     solidAmp.signalProcessing(true,0,20);
     aConsol.mixSounds(2, 0.5f, 0.0);
     dawMix.recordReady();
@@ -690,6 +811,15 @@ int main()
     std::cout << "EchoMachine echoMch " << (echoMch.outputLvl <= 0.0f ? "not loud enough" : "louder!!!!") << "\n";
 
     std::cout << "EchoMachine::Overdrive overDr = " << (overDr.clippingPoint <= 0.0f ? " need more Clipping...pleasee!!!" : "YASSSSS") << "\n";
+    */
+
+    echoMch.echoFunction(15);
+    
+    float lvl1 = solidAmp.volumeLevel(15.0f);
+    float lvl2 = solidAmp.volumeLevel(8.5f);
+
+    std::cout << "amp level 1 : " << lvl1 << std::endl;
+    std::cout << "amp level 2 : " << lvl2 << std::endl;
 
     std::cout << "good to go!" << std::endl;
 }
